@@ -128,38 +128,6 @@ function doCopy(event) {
     .catch((error) => error);
 }
 
-// navigator.clipboard
-//   .writeText(`This copied text!!! bla-bla-bla`)
-//   .then(() => {
-//     console.log(`Text copied!`);
-//   })
-//   .catch((error) => {
-//     console.log(`Error>>> ${error}`);
-//   });
-
-// const countryDataArr = new Array();
-// for (const iso2 of selectCountry) {
-//   // console.log(iso2.value, iso2.label);
-//   if (iso2.label) {
-//     countryDataArr.push([iso2.label, iso2.value]);
-//   }
-// }
-// console.log(countryDataArr);
-
-// console.log(
-//   this.options[this.selectedIndex].text,
-//   this.options[this.selectedIndex].value
-// );
-
-// let col = 3;
-// let resu = '';
-// for (let q = 0; q < col; q++) {
-//   for (let w = 0; w < 4; w++) {
-//     resu += Math.floor(Math.random() * 2);
-//   }
-// }
-// console.log(resu);
-
 // var numReserve = [];
 // while (numReserve.length < 12) {
 //   var randomNumber = Math.ceil(Math.random() * 1000);
