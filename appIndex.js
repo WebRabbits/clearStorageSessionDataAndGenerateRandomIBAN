@@ -1,33 +1,5 @@
 'use strict';
 
-// const num1 = BigInt(Math.round(Math.random() * 999999999999999999999999));
-
-// const text = '7174981917325157071993589';
-// console.log(num1, `-`, String(num1).length);
-
-// // Генерация Turkey IBAN
-// let resultIban = '';
-// let countryCode = 'TR';
-
-// function randomNUmber(min, max) {
-//   min = Math.ceil(min);
-//   max = Math.floor(max);
-//   const result = Math.round(Math.random() * (max - min) + min);
-//   console.log(result);
-// }
-
-// randomNUmber(100000000000000000000000, 999999999999999999999999);
-
-// console.log(BigInt(Math.round(Math.random() * 999999999999999999999999)));
-
-//---------------
-
-// let num2 = '';
-// for (let i = 0; i < 24; i++) {
-//   num2 += BigInt(Math.floor(Math.random() * 10));
-// }
-// console.log(num2, `-`, num2.length);
-
 // Создаём разметку плагина
 const body = document.querySelector('body');
 body.insertAdjacentHTML(
