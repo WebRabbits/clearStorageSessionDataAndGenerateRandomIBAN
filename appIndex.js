@@ -128,6 +128,27 @@ function doCopy(event) {
     .catch((error) => error);
 }
 
+/*--------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+// function thisPage() {
+//   const page = window.location.hostname;
+//   console.log(page);
+// }
+
+// thisPage();
+
+// const thisPage = window.location.hostname;
+
+// async function getUserData() {
+//   const response = await fetch(
+//     'https://test-devcasino.egamings.com/api/v1/userInfo'
+//   );
+//   const data = await response.json();
+//   console.log(data);
+// }
+
+// getUserData().then(console.log);
+
 // var numReserve = [];
 // while (numReserve.length < 12) {
 //   var randomNumber = Math.ceil(Math.random() * 1000);
