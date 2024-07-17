@@ -48,11 +48,14 @@ select:focus {
   transition: 0.5s;
 }
 
-.randomIban-block {
+.randomIban-block,
+.randomPhone-block {
   height: inherit;
+  margin-left: 5px;
 }
 
-.randomIban-block #country {
+.randomIban-block #country,
+#randomPhone {
   border: 1px solid #64aceb;
   background: #64aceb;
   color: #fff;
@@ -82,4 +85,12 @@ select:focus {
 .copy:hover {
   color: #ffffff;
   transition: 0.7s;
+}
+
+.result-random-phone-block {
+  cursor: pointer;
+}
+
+.animate {
+  contain: 'Copied!';
 }

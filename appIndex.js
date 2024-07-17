@@ -12,15 +12,25 @@ body.insertAdjacentHTML(
 </div>
 
 <div class="randomIban-block">
-<select name="" id="country">
+  <select name="" id="country">
       <option disabled selected="selected">Select country</option>
       <option value="26">TR - Turkey</option>
       <option value="16">BE - Belgium</option>
       <option value="20">AT - Austria</option>
-    </select>
+  </select>
     <button type="button" class="copy">Copy</button>
 <!--<button class="get-random-iban-btn">Получить IBAN</button>-->
 <p class="result-random-iban-block"></p>
+</div>
+<div class="randomPhone-block" title="Click on phone number to copy">
+  <select name id="randomPhone">
+    <option disabled selected="selected">Select phone</option>
+    <option value=11>Russia +7</option>
+    <option value=11>Belgium +32</option>
+    <option value=12>Brazil +55</option>
+    <option value=12>Turkey +90</option>
+  </select>
+<p class="result-random-phone-block"></p>
 </div>
 </div>
 `
@@ -30,12 +40,17 @@ body.insertAdjacentHTML(
 const bodyElement = document.querySelector('body');
 const resetBtn = document.querySelector('.resetBtn');
 const selectCountry = document.querySelector('#country');
+const selectPhone = document.querySelector('#randomPhone');
+const resultBlockPhone = document.querySelector('.result-random-phone-block');
 const btnCopy = document.querySelector('.copy');
 
 // Созадём ивенты
 resetBtn.addEventListener('click', handleClearAllStorage);
 selectCountry.addEventListener('change', getCountryData);
 btnCopy.addEventListener('click', doCopy);
+
+selectPhone.addEventListener('change', getPhoneData);
+resultBlockPhone.addEventListener('click', copyPhone);
 
 /*-------------------------------------------------------------------------------------------------------*/
 
@@ -76,14 +91,11 @@ function rebutPage() {
 function getCountryData() {
   let countryIBANName = this.options[this.selectedIndex].text.slice(0, 2);
   let countryIBANCount = this.options[this.selectedIndex].value;
-  // console.log(countryIBANName, countryIBANCount);
   generateIban(countryIBANName, countryIBANCount);
 }
 
 // Автоматически генерируем IBAN в зависимости от выбраранного значения в селекторе
 function generateIban(countryCode, lenghtSymbol) {
-  console.log(countryCode);
-  // console.log(lenghtSymbol);
   let resRandomNumber = '';
   for (let i = 0; i < lenghtSymbol - countryCode.length; i++) {
     resRandomNumber += BigInt(Math.floor(Math.random() * 10));
@@ -120,12 +132,64 @@ function doCopy(event) {
             event.target.textContent = 'Copy';
           }, 1000);
         }
-        // alert(`text "${resultIban}" copied is DONE!!!`);
       } else {
         throw new Error('Error! This text result IBAN not copied!');
       }
     })
     .catch((error) => error);
+}
+
+//Функция выбора значения из селектора
+function getPhoneData() {
+  const phoneCode = this.options[this.selectedIndex].text
+    .split(' ')[1]
+    .toString();
+
+  const phoneValue = this.options[this.selectedIndex].value;
+  generateRandomPhone(phoneCode, phoneValue);
+}
+
+//Функция генерирования случаного номера телефона согласно в формате выбранной страны
+function generateRandomPhone(phoneCode, lengthPhone) {
+  let phoneNumber = String();
+
+  for (let i = 0; i < lengthPhone - phoneCode.length + 1; i++) {
+    phoneNumber += BigInt(Math.floor(Math.random() * 10));
+  }
+
+  if (
+    phoneNumber.length < lengthPhone - phoneCode.length + 1 ||
+    phoneNumber.length > lengthPhone - phoneCode.length + 1
+  ) {
+    throw new Error(
+      'Error>>> Something went wrong. The length of the phone number value is not calculated correctly.'
+    );
+  } else {
+    document.querySelector(
+      '.result-random-phone-block'
+    ).innerHTML = `${phoneCode} ${phoneNumber}`;
+  }
+}
+
+//Функия копирования значения ТОЛЬКО номера телефона (без кода страны) при клике по строке с значением. Копируем в буфер обмена.
+function copyPhone() {
+  const valNumberPhone = resultBlockPhone.innerText
+    .slice(
+      resultBlockPhone.innerText.indexOf(' '),
+      resultBlockPhone.innerText.length
+    )
+    .trimStart();
+
+  navigator.clipboard
+    .writeText(valNumberPhone)
+    .then((isCopy) => {
+      if (isCopy === undefined) {
+        window.getSelection().selectAllChildren(resultBlockPhone);
+      }
+    })
+    .catch(() => {
+      throw new Error(`Error>>> Something went wrong. Copying failed.`);
+    });
 }
 
 /*--------------------------------------------------------------------------------------------------------------------------------------------------*/
