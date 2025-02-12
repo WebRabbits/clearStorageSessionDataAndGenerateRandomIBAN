@@ -171,7 +171,7 @@ function generateRandomPhone(phoneCode, lengthPhone) {
   }
 }
 
-//Функия копирования значения ТОЛЬКО номера телефона (без кода страны) при клике по строке с значением. Копируем в буфер обмена.
+//Функция копирования значения ТОЛЬКО номера телефона (без кода страны) при клике по строке с значением. Копируем в буфер обмена.
 function copyPhone() {
   const valNumberPhone = resultBlockPhone.innerText
     .slice(
