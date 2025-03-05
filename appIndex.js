@@ -44,6 +44,10 @@ body.insertAdjacentHTML(
           <label>Заменить:</label>
           <input type="text" class="input-search" placeholder="Введите текст для замены..."/>
         </div>
+        <div class="block-number-character">
+          <label>Кол-во символов:</label>
+          <a>0</a>
+        </div>
         <div class="error-block-change"></div>
         <div class="block-change-text">
           <textarea name="block-text" id="" cols="80" rows="10" placeholder="Введите текст для изменения..."></textarea>
@@ -77,6 +81,10 @@ const blockText = document.querySelector('textarea[name="block-text"]');
 const changeBtn = document.querySelector('.btn-change-text');
 const copyBtn = document.querySelector('.btn-copy-text');
 
+const blockNumberCharacter = document.querySelector(
+  '.block-number-character a'
+);
+
 // Создаём ивенты
 resetBtn.addEventListener('click', handleClearAllStorage);
 selectCountry.addEventListener('change', getCountryData);
@@ -86,7 +94,10 @@ selectPhone.addEventListener('change', getPhoneData);
 resultBlockPhone.addEventListener('click', copyPhone);
 
 changeTextBlockBtn.addEventListener('click', toggleChangeBlockText);
-changeBtn.addEventListener('click', () => changeText(validChangeText));
+changeBtn.addEventListener('click', () =>
+  changeText(validChangeText, numberOfCharacterTextarea)
+);
+blockText.addEventListener('input', numberOfCharacterTextarea);
 copyBtn.addEventListener('click', copyChangeText);
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -246,6 +257,11 @@ function toggleChangeBlockText() {
     }
   });
 }
+// Функция с ивентом "input" для динамического отображения кол-ва символов из поля textarea при вводе и при изменении текста.
+function numberOfCharacterTextarea(beforeChangeNumberOfCharacter) {
+  blockNumberCharacter.innerText =
+    blockText.textLength || beforeChangeNumberOfCharacter;
+}
 
 // Функция замены части контента в тексте. Функция принимает callback-функцию валидации validChangeText() введённых данных в поля, в которую передаётся массив значений из полей ввода.
 // Если все значения переданы верно - текст в textarea изменяется.
@@ -259,6 +275,8 @@ function changeText(validChangeText) {
 
   blockText.value = text.replaceAll(searchStr, changeStr);
   validChangeText([searchStr, changeStr, text]);
+
+  numberOfCharacterTextarea(blockText.textLength);
 }
 
 // Функция валидация заполненных полей "Найти", "Заменить", "Введите текст"
