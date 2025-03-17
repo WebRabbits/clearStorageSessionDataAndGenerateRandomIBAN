@@ -259,8 +259,7 @@ function toggleChangeBlockText() {
 }
 // Функция с ивентом "input" для динамического отображения кол-ва символов из поля textarea при вводе и при изменении текста.
 function numberOfCharacterTextarea(beforeChangeNumberOfCharacter) {
-  blockNumberCharacter.innerText =
-    blockText.textLength || beforeChangeNumberOfCharacter;
+  blockNumberCharacter.textContent = blockText.textLength;
 }
 
 // Функция замены части контента в тексте. Функция принимает callback-функцию валидации validChangeText() введённых данных в поля, в которую передаётся массив значений из полей ввода.
@@ -272,6 +271,7 @@ function changeText(validChangeText) {
   const searchStr = input_1.value;
   const changeStr = input_2.value;
   let text = blockText.value;
+  console.log(text);
 
   blockText.value = text.replaceAll(searchStr, changeStr);
   validChangeText([searchStr, changeStr, text]);
