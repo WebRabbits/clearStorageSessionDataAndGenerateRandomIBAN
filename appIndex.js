@@ -378,13 +378,28 @@ blockDivText.append(elementTextarea);
 // Добавляем элемент tooltip в DOM
 document.body.after(customTooltip);
 
+//// КОПИРОВАНИЕ при потери фокуса НЕ СРАБОТАЕТ, так как сам браузер ЗАПРЕЩАЕТ данное действие
+// document.addEventListener('visibilitychange', () => {
+//   if (
+//     document.visibilityState === 'hidden' &&
+//     elementTextarea.value.trim() !== '' &&
+//     document.hasFocus()
+//   ) {
+//     copyChangeValueTextarea(elementTextarea.value);
+//   }
+// });
+
 // Создаём событие отслеживания изменения контента в поле textarea при изменении значений в данном поле и потери focus из поля
-elementTextarea.addEventListener('change', copyChangeValueTextarea);
+elementTextarea.addEventListener('change', copyChangeTextareaEventBlur);
+
+function copyChangeTextareaEventBlur() {
+  this.value.trim() !== '' ? copyChangeValueTextarea(this.value) : null;
+}
 
 // Функция копирования информации из поля textarea
-function copyChangeValueTextarea(event) {
+function copyChangeValueTextarea(text) {
   navigator.clipboard
-    .writeText(this.value)
+    .writeText(text)
     .then((copyText) => {
       if (copyText === undefined) {
         showTooltipOnCursor();
