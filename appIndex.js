@@ -344,6 +344,72 @@ function copyChangeText() {
     });
 }
 
+//// Создание блока текста и фичи автоматического копирования данных из textarea при потери фокуса из поля
+/**
+ * Заменить значение в переменной elementTextarea на корректное значение id/class элемента из трекера
+ * Переменные blockDivText, elementTextarea, mainBlock, как и все их значения - являются ТЕСТОВЫМИ, и НЕ ДОЛЖНЫ использоваться в рабочем скрипте
+ */
+
+const blockDivText = document.createElement('div');
+blockDivText.classList.add('block-div-textarea');
+const elementTextarea = document.createElement('textarea');
+elementTextarea.rows = 10;
+elementTextarea.cols = 60;
+console.dir(elementTextarea);
+
+// Создаём блок, задаём стили для блока tooltip (всплывающей подсказки) при копирование текста из textarea
+const customTooltip = document.createElement('div');
+customTooltip.classList.add('custom-tooltip');
+customTooltip.innerText = 'Копирую текст...';
+customTooltip.style.display = 'none';
+customTooltip.style.position = 'absolute';
+customTooltip.style.backgroundColor = '#333';
+customTooltip.style.color = '#fff';
+customTooltip.style.padding = '3px';
+customTooltip.style.borderRadius = '3px';
+customTooltip.style.fontFamily = 'monospace';
+customTooltip.style.fontWeight = '100';
+customTooltip.style.fontSize = '10px';
+
+const mainBlock = document.querySelector('.mainBlock');
+
+mainBlock.after(blockDivText);
+blockDivText.append(elementTextarea);
+// Добавляем элемент tooltip в DOM
+document.body.after(customTooltip);
+
+// Создаём событие отслеживания изменения контента в поле textarea при изменении значений в данном поле и потери focus из поля
+elementTextarea.addEventListener('change', copyChangeValueTextarea);
+
+// Функция копирования информации из поля textarea
+function copyChangeValueTextarea(event) {
+  navigator.clipboard
+    .writeText(this.value)
+    .then((copyText) => {
+      if (copyText === undefined) {
+        showTooltipOnCursor();
+        setTimeout(() => {
+          customTooltip.classList.remove('show-tooltip');
+        }, 1500);
+      } else {
+        throw new Error('Не удалось скопировать текст');
+      }
+    })
+    .catch((error) => {
+      console.log('Error>>>', error);
+    });
+}
+
+// Функция позиционирование блок с tooltip и вывод его возле курсора при выполнении условия из функции copyChangeValueTextarea()
+function showTooltipOnCursor() {
+  document.addEventListener('mousemove', (event) => {
+    customTooltip.style.left = `${event.clientX + 12}px`;
+    customTooltip.style.top = `${event.clientY + 12}px`;
+  });
+
+  customTooltip.classList.add('show-tooltip');
+}
+
 // https:\/\/sky.pro\/media\/kopirovanie-teksta-v-bufer-obmena-s-pomoshhyu-javascript\/
 /*--------------------------------------------------------------------------------------------------------------------------------------------------*/
 
